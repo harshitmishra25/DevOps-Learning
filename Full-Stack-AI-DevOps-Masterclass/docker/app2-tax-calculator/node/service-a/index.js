@@ -5,7 +5,8 @@ const cors = require("cors");
 const app = express();
 const HOSTNAME = process.env.HOSTNAME || require("os").hostname();
 const TAX_SERVICE_URL = process.env.TAX_SERVICE_URL || "http://service-b:4000";
-
+ // const TAX_SERVICE_URL = process.env.TAX_SERVICE_URL || "http://localhost:4000";
+ 
 // CORS (must come before routes)
 const allowedOrigins = [
   process.env.FRONTEND_URL || "http://localhost:5173",

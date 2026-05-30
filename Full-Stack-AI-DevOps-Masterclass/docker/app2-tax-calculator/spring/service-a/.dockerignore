@@ -1,0 +1,6 @@
+Dockerfile
+logs/
+.git
+.gitignore
+random.txt
+.gitattributes

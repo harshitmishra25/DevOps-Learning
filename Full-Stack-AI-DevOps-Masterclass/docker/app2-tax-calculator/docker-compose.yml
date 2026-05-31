@@ -50,10 +50,12 @@ services:
             - service-b
         ports:
             - 3100:3000
+
         environment:
             - TAX_SERVICE_URL=http://service-b:4000
             - FRONTEND_URL=http://localhost:5173
-
+        networks:
+            - Compose-tax-network
 
     service-b:
       build:
@@ -61,8 +63,10 @@ services:
           dockerfile: Dockerfile
       ports:
             - 3200:4000    
-
+      networks:
+            - Compose-tax-network
     
+
     frontend:
         build:
             context: ./tax-calculator-frontend
@@ -71,3 +75,10 @@ services:
           - 5173:80
         depends_on:
             - service-a
+        networks:
+            - Compose-tax-network
+
+networks:
+  Compose-tax-network:
+        driver: bridge
+    

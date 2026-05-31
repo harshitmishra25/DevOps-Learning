@@ -20,10 +20,31 @@
 
 
 
+# services:
+#     service-a:
+#         build:
+#           context: ./spring/service-a
+#           dockerfile: Dockerfile
+#         depends_on:
+#             - service-b
+#         ports:
+#             - 3100:3000
+#         environment:
+#             - TAX_SERVICE_URL=http://service-b:4000
+
+
+#     service-b:
+#       build:
+#           context: ./spring/service-b
+#           dockerfile: Dockerfile
+#       ports:
+#             - 3200:4000
+
+
 services:
     service-a:
         build:
-          context: ./spring/service-a
+          context: ./python/service-a
           dockerfile: Dockerfile
         depends_on:
             - service-b
@@ -31,13 +52,22 @@ services:
             - 3100:3000
         environment:
             - TAX_SERVICE_URL=http://service-b:4000
+            - FRONTEND_URL=http://localhost:5173
 
 
     service-b:
       build:
-          context: ./spring/service-b
+          context: ./python/service-b
           dockerfile: Dockerfile
       ports:
-            - 3200:4000
+            - 3200:4000    
 
-                   
+    
+    frontend:
+        build:
+            context: ./tax-calculator-frontend
+            dockerfile: Dockerfile
+        ports:
+          - 5173:80
+        depends_on:
+            - service-a

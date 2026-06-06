@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-stack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-stack
+  template:
+    metadata:
+      labels:
+        app: app-stack
+    spec:
+      containers:
+        - name: service-b
+          image: embarkx/tax-service-b
+          env:
+            - name: PORT
+              valueFrom:
+                secretKeyRef:
+                  name: springboot-db-secret
+                  key: PORT2
+          ports:
+            - containerPort: 4000
+
+        - name: service-a
+          image: embarkx/tax-service-a
+          env:
+            - name: TAX_SERVICE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: springboot-app-config
+                  key: TAX_SERVICE_URL
+
+            - name: PORT
+              valueFrom:
+                secretKeyRef:
+                  name: springboot-db-secret
+                  key: PORT1
+          ports:
+            - containerPort: 3000
+
+# ---
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: service-a
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: service-a
+#   template:
+#     metadata:
+#       labels:
+#         app: service-a
+#     spec:
+#       containers:
+#         - name: service-a
+#           image: embarkx/tax-service-a
+#           env:
+#             - name: TAX_SERVICE_URL
+#               valueFrom:
+#                 configMapKeyRef:
+#                   name: springboot-app-config
+#                   key: TAX_SERVICE_URL
+
+#             - name: PORT
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: springboot-db-secret
+#                   key: PORT1
+#           ports:
+#             - containerPort: 3000

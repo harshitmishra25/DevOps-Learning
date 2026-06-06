@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-app-springboot
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello-app-springboot
+  template:
+    metadata:
+      labels:
+        app: hello-app-springboot
+    spec:
+      containers:
+        - name: hello-app-springboot
+          image: harshit200525/sprintboot-app1
+
+          # envFrom:
+          #   - configMapRef:
+          #       name: app-config
+          #   - secretRef:
+          #       name: db-secret
+          env:
+            - name: ENV_VALUE
+              valueFrom:
+                  configMapKeyRef:
+                      name: springboot-app-config
+                      key: ENV_VALUE
+            - name: PORT
+              valueFrom:
+                  secretKeyRef:
+                      name: springboot-db-secret
+                      key: PORT
+            - name: DB_PASSWORD
+              valueFrom:
+                  secretKeyRef:
+                      name: springboot-db-secret
+                      key: DB_PASSWORD
+          ports:
+            - containerPort: 8080

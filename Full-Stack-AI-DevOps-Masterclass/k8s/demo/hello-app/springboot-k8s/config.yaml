@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: springboot-app-config
+data:
+  ENV_VALUE: "Kubernetes Deployment of Springboot Hello App"
+  MY_PASS: "124"

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-app-node
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hello-app-node
+  template:
+    metadata:
+      labels:
+        app: hello-app-node
+    spec:
+      containers:
+        - name: hello-app-node
+          image: harshit200525/node-app1
+          # envFrom:
+          #   - configMapRef:
+          #       name: app-config
+          #   - secretRef:
+          #       name: db-secret
+          env:
+            - name: ENV_VALUE
+              valueFrom:
+                  configMapKeyRef:
+                      name: node-app-config
+                      key: ENV_VALUE
+            - name: PORT
+              valueFrom:
+                  secretKeyRef:
+                      name: node-db-secret
+                      key: PORT
+          ports:
+            - containerPort: 3000

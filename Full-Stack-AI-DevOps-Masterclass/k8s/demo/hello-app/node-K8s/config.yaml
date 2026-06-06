@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-app-config
+data:
+  ENV_VALUE: "Kubernetes Deployment of Node Hello App"
+  MY_PASS: "124"

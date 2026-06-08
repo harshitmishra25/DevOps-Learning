@@ -3,13 +3,12 @@ kind: Service
 metadata:
   name: service-b
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: app-stack
   ports:
     - port: 4000
-      targetPort: 4000
-      nodePort: 32006
+      targetPort: 4000  
 
 ---
 
